@@ -38,6 +38,7 @@ public class ExcelWriter {
 	private int cols_stat;
 	private int rows_stat;
 	RGBColor colors;
+	private String watermark = null;
 	
 	public void generate(String xml, HttpServletResponse resp){
 		parser = new ExcelXmlParser();
@@ -161,6 +162,8 @@ public class ExcelWriter {
 	}
 
 	private void watermarkPrint(ExcelXmlParser parser) throws WriteException {
+		if (watermark == null) return;
+		
 		WritableFont font = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD);
 		font.setColour(colors.getColor(watermarkTextColor, wb));
 		WritableCellFormat f = new WritableCellFormat (font);
@@ -168,8 +171,7 @@ public class ExcelWriter {
 		f.setVerticalAlignment(VerticalAlignment.CENTRE);
 
 		f.setAlignment(Alignment.CENTRE);
-		String name = "This document was made with dhtmlx library. http://dhtmlx.com";
-		Label label = new Label(0, headerOffset, name, f);
+		Label label = new Label(0, headerOffset, watermark , f);
 		sheet.addCell(label);
 		sheet.mergeCells(0, headerOffset, colsNumber, headerOffset);
 	}
@@ -292,5 +294,9 @@ public class ExcelWriter {
 				watermarkTextColor = "000000";
 			}
 		}
+	}
+	
+	public void setWatermark(String mark) {
+		watermark = mark;	
 	}
 }

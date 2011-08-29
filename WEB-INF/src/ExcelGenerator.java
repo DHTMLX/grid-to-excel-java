@@ -1,9 +1,6 @@
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URLDecoder;
-import java.util.Collections;
-import java.util.Enumeration;
 
 import javax.servlet.http.*;
 

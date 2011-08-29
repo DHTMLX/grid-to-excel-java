@@ -4,7 +4,6 @@ import java.util.Hashtable;
 import java.util.regex.*;
 
 import jxl.format.Colour;
-import jxl.format.RGB;
 import jxl.write.WritableWorkbook;
 
 public class RGBColor {
