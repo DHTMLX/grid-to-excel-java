@@ -1,0 +1,13 @@
+<!DOCTYPE web-app PUBLIC
+  '-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN'
+  'http://java.sun.com/dtd/web-app_2_3.dtd'>
+<web-app>
+  	<servlet>
+    	<servlet-name>ExcelGenerator</servlet-name>
+    	<servlet-class>ExcelGenerator</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>ExcelGenerator</servlet-name>
+	    <url-pattern>/generate</url-pattern>
+  	</servlet-mapping>
+</web-app>
