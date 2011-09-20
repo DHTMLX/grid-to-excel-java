@@ -31,6 +31,7 @@ public class CSVxml {
 			//parse using builder to get DOM representation of the XML file
 			StringReader reader = new StringReader(xml_string);
 			InputSource inputSource = new InputSource(reader);
+			inputSource.setEncoding("UTF-8");
 			dom = db.parse(inputSource);
 			reader.close();
 			
@@ -86,7 +87,7 @@ public class CSVxml {
 	}
 	public String[] getRow(){
 		if (rows == null || rows.getLength() <= rowsPos) return null;
-		Node node = rows.item(footerPos);
+		Node node = rows.item(rowsPos);
 		rowsPos += 1;
 		
 		return getDataArray(node);

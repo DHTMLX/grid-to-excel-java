@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 public class CSVWriter {
 	int rows = 0;
 	int cols = 0;
+		
 	public void generate(String xml, HttpServletResponse resp) throws IOException {
 		CSVxml data = new CSVxml(xml);
 		
+		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/vnd.ms-excel");
 		resp.setCharacterEncoding("UTF-8");
 		resp.setHeader("Content-Disposition", "attachment;filename=grid.csv");
@@ -48,7 +50,7 @@ public class CSVWriter {
 		StringBuffer buff = new StringBuffer();
 		for ( int i=0; i<csv.length; i++){
 			if (i>0)
-				buff.append(";");
+				buff.append(",");
 			if (!csv[i].equals("")){
 				buff.append("\"");
 				buff.append(csv[i].replace("\"", "\"\""));
