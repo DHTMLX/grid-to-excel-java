@@ -10,4 +10,13 @@
 	    <servlet-name>ExcelGenerator</servlet-name>
 	    <url-pattern>/generate</url-pattern>
   	</servlet-mapping>
+  	
+  	<servlet>
+    	<servlet-name>CSVGenerator</servlet-name>
+    	<servlet-class>CSVGenerator</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>CSVGenerator</servlet-name>
+	    <url-pattern>/csv</url-pattern>
+  	</servlet-mapping>
 </web-app>
