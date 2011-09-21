@@ -19,4 +19,13 @@
 	    <servlet-name>CSVGenerator</servlet-name>
 	    <url-pattern>/csv</url-pattern>
   	</servlet-mapping>
+  	
+  	<servlet>
+    	<servlet-name>HTMLGenerator</servlet-name>
+    	<servlet-class>HTMLGenerator</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>HTMLGenerator</servlet-name>
+	    <url-pattern>/html</url-pattern>
+  	</servlet-mapping>  	
 </web-app>
