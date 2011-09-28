@@ -128,6 +128,7 @@ public class ExcelWriter {
 
 	private void footerPrint(ExcelXmlParser parser) throws RowsExceededException, WriteException, IOException {
 		cols = parser.getColumnsInfo("foot");
+		if (cols == null) return;
 		if (parser.getWithoutHeader() == false) {
 			for (int i = 0; i < cols.length; i++) {
 				sheet.setRowView(i + headerOffset, 450);
@@ -179,6 +180,7 @@ public class ExcelWriter {
 	private void rowsPrint(ExcelXmlParser parser, HttpServletResponse resp) throws WriteException, IOException {
 		//do we really need them?
 		ExcelRow[] rows = parser.getGridContent();
+		if (rows == null) return;
 		this.rows_stat = rows.length;
 		
 		for (int i = 0; i < rows.length; i++) {

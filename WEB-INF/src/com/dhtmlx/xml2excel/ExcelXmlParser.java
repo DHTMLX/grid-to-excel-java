@@ -15,7 +15,6 @@ import org.xml.sax.SAXException;
 
 public class ExcelXmlParser {
 	private Element root;
-	private ExcelColumn[][] columns;
 	private ExcelRow[] rows;
 	private int[] widths;
 	private Boolean header = false;
@@ -57,6 +56,7 @@ public class ExcelXmlParser {
 
 	public ExcelColumn[][] getColumnsInfo(String mode) {
 		ExcelColumn[] colLine = null;
+		ExcelColumn[][] columns = null;
 
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		XPath xpath = xpathFactory.newXPath();
@@ -82,25 +82,26 @@ public class ExcelXmlParser {
 					}
 					columns[i] = colLine;
 				}
+			} else {
+				return null;
 			}
 		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		createWidthsArray();
-		optimizeColumns();
+
+		createWidthsArray(columns);
+		columns = optimizeColumns(columns);
 		return columns;
 	}
 
-	private void createWidthsArray() {
+	private void createWidthsArray(ExcelColumn[][] columns) {
 		widths = new int[columns[0].length];
 		for (int i = 0; i < columns[0].length; i++) {
 			widths[i] = columns[0][i].getWidth();
 		}
 	}
 
-	private void optimizeColumns() {
+	private ExcelColumn[][] optimizeColumns(ExcelColumn[][] columns) {
 		for (int i = 1; i < columns.length; i++) {
 			for (int j = 0; j < columns[i].length; j++) {
 				columns[i][j].setWidth(columns[0][j].getWidth());
@@ -122,6 +123,7 @@ public class ExcelXmlParser {
 				}
 			}
 		}
+		return columns;
 	}
 
 	public ExcelRow[] getGridContent() {
