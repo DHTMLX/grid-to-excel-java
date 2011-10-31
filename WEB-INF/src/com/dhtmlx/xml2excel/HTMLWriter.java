@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 public class HTMLWriter {
 	int rows = 0;
 	int cols = 0;
-		
+	int fontSize = -1;
+	String watermark = null;
+
 	public void generate(String xml, HttpServletResponse resp) throws IOException {
 		CSVxml data = new CSVxml(xml);
 		
@@ -19,40 +21,52 @@ public class HTMLWriter {
 		resp.setHeader("Cache-Control", "max-age=0");
 	
 		String[] csv;
+		int colsnum = 0;
 		PrintWriter writer = resp.getWriter();
 
 		startHTML(writer);
 		csv = data.getHeader();
+		if (csv != null)colsnum = csv.length;
 		while(csv != null){			
 			writer.append(dataAsString(csv));
 			csv = data.getHeader();
 		}
 		
 		csv = data.getRow();
+		if (csv != null)colsnum = csv.length;
 		while(csv != null){			
 			writer.append(dataAsString(csv));
 			csv = data.getRow();
 		}
 		
 		csv = data.getFooter();
+		if (csv != null)colsnum = csv.length;
 		while(csv != null){			
 			writer.append(dataAsString(csv));
 			writer.flush();
 			csv = data.getFooter();
 		}
+		drawWatermark(writer, colsnum);
 		endHTML(writer);
 		
 		writer.flush();
 		writer.close();
 	}
 
+	private void drawWatermark(PrintWriter writer, int colsnum) {
+		if (watermark != null)
+			writer.append("<tr><td colspan='" + colsnum + "'>" + watermark + "</td></tr>");
+	}
+	
 	private void endHTML(PrintWriter writer) {
 		writer.append("</table></body></html>");
-		
 	}
 
 	private void startHTML(PrintWriter writer) {
-		writer.append("<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><body><table>");
+		writer.append("<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><body>");
+		if (fontSize != -1)
+			writer.append("<style>table tr td { font-size: " + fontSize + "px; }</style>");
+		writer.append("<table>");
 		
 	}
 
@@ -77,5 +91,12 @@ public class HTMLWriter {
 	public int getRowsStat() {
 		return rows;
 	}
+	
+	public void setFontSize(int fontsize) {
+		this.fontSize = fontsize;
+	}
 
+	public void setWatermark(String watermark) {
+		this.watermark = watermark;
+	}
 }

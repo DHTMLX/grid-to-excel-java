@@ -26,6 +26,7 @@ public class ExcelWriter {
 	public int headerOffset = 0;
 	public int scale = 6;
 	public String pathToImgs = "";//optional, physical path
+	public int fontSize = 10;
 
 	String bgColor = "";
 	String lineColor = "";
@@ -96,7 +97,7 @@ public class ExcelWriter {
 				sheet.getSettings().setVerticalFreeze(i + 1);
 				for (int j = 0; j < cols[i].length; j++) {
 					sheet.setColumnView(j, widths[j]/scale);
-					WritableFont font = new WritableFont(WritableFont.ARIAL, 9, WritableFont.BOLD);
+					WritableFont font = new WritableFont(WritableFont.ARIAL, fontSize - 1, WritableFont.BOLD);
 					font.setColour(colors.getColor(headerTextColor, wb));
 					WritableCellFormat f = new WritableCellFormat (font);
 					f.setBackground(colors.getColor(bgColor, wb));
@@ -133,7 +134,7 @@ public class ExcelWriter {
 			for (int i = 0; i < cols.length; i++) {
 				sheet.setRowView(i + headerOffset, 450);
 				for (int j = 0; j < cols[i].length; j++) {
-					WritableFont font = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD);
+					WritableFont font = new WritableFont(WritableFont.ARIAL, fontSize, WritableFont.BOLD);
 					font.setColour(colors.getColor(headerTextColor, wb));
 					WritableCellFormat f = new WritableCellFormat (font);
 					f.setBackground(colors.getColor(bgColor, wb));
@@ -165,7 +166,7 @@ public class ExcelWriter {
 	private void watermarkPrint(ExcelXmlParser parser) throws WriteException {
 		if (watermark == null) return;
 		
-		WritableFont font = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD);
+		WritableFont font = new WritableFont(WritableFont.ARIAL, fontSize, WritableFont.BOLD);
 		font.setColour(colors.getColor(watermarkTextColor, wb));
 		WritableCellFormat f = new WritableCellFormat (font);
 		f.setBorder(Border.ALL, BorderLineStyle.THIN, colors.getColor(lineColor, wb));
@@ -188,7 +189,7 @@ public class ExcelWriter {
 			sheet.setRowView(i + headerOffset, 400);
 			for (int j = 0; j < cells.length; j++) {
 				// sets cell font
-				WritableFont font = new WritableFont(WritableFont.ARIAL, 10, (cells[j].getBold()) ? WritableFont.BOLD : WritableFont.NO_BOLD, (cells[j].getItalic()) ? true : false);
+				WritableFont font = new WritableFont(WritableFont.ARIAL, fontSize, (cells[j].getBold()) ? WritableFont.BOLD : WritableFont.NO_BOLD, (cells[j].getItalic()) ? true : false);
 				if ((!cells[j].getTextColor().equals(""))&&(parser.getProfile().equals("full_color")))
 					font.setColour(colors.getColor(cells[j].getTextColor(), wb));
 				else
@@ -300,5 +301,9 @@ public class ExcelWriter {
 	
 	public void setWatermark(String mark) {
 		watermark = mark;	
+	}
+	
+	public void setFontSize(int fontsize) {
+		this.fontSize = fontsize;
 	}
 }

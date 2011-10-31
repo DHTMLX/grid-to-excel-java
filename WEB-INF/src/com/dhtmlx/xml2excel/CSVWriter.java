@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CSVWriter {
 	int rows = 0;
 	int cols = 0;
+	String watermark = null;
 		
 	public void generate(String xml, HttpServletResponse resp) throws IOException {
 		CSVxml data = new CSVxml(xml);
@@ -40,6 +41,8 @@ public class CSVWriter {
 			csv = data.getFooter();
 		}
 		
+		drawWatermark(writer);
+		
 		writer.flush();
 		writer.close();
 	}
@@ -61,6 +64,11 @@ public class CSVWriter {
 		return buff.toString();
 	}
 
+	private void drawWatermark(PrintWriter writer) {
+		if (watermark != null)
+			writer.append(watermark);
+	}
+	
 	public int getColsStat() {
 		return cols;
 	}
@@ -69,4 +77,7 @@ public class CSVWriter {
 		return rows;
 	}
 
+	public void setWatermark(String watermark) {
+		this.watermark = watermark;
+	}
 }
