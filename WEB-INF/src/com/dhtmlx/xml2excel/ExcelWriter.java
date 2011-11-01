@@ -16,7 +16,7 @@ import jxl.write.Number;
 import jxl.write.biff.*;
 
 
-public class ExcelWriter {
+public class ExcelWriter extends BaseWriter {
 	private WritableWorkbook wb;
 	private WritableSheet sheet;
 	private ExcelColumn[][] cols;

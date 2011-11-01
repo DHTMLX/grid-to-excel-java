@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class HTMLWriter {
+public class HTMLWriter extends BaseWriter{
 	int rows = 0;
 	int cols = 0;
 	int fontSize = -1;
@@ -33,10 +33,14 @@ public class HTMLWriter {
 		}
 		
 		csv = data.getRow();
-		if (csv != null)colsnum = csv.length;
+		if (csv != null){
+			colsnum = csv.length;
+			cols = csv.length;
+		}
 		while(csv != null){			
 			writer.append(dataAsString(csv));
 			csv = data.getRow();
+			rows +=1;
 		}
 		
 		csv = data.getFooter();

@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class CSVWriter {
+public class CSVWriter extends BaseWriter {
 	int rows = 0;
 	int cols = 0;
 	String watermark = null;
@@ -29,9 +29,12 @@ public class CSVWriter {
 		}
 		
 		csv = data.getRow();
-		while(csv != null){			
+		if (csv !=null)
+			cols = csv.length;
+		while(csv != null){
 			writer.append(dataAsString(csv));
 			csv = data.getRow();
+			rows += 1;
 		}
 		
 		csv = data.getFooter();
@@ -79,5 +82,10 @@ public class CSVWriter {
 
 	public void setWatermark(String watermark) {
 		this.watermark = watermark;
+	}
+
+	@Override
+	public void setFontSize(int fontsize) {
+		// do nothing
 	}
 }
