@@ -38,12 +38,14 @@ public class CSVxml {
 			header = dom.getElementsByTagName("head");
 			if (header.getLength()>0){
 				header = header.item(0).getChildNodes();
+				header = removeSettings(header);
 			}
 			headerPos = 0;
 			
-			footer = dom.getElementsByTagName("head");
+			footer = dom.getElementsByTagName("foot");
 			if (footer.getLength()>0){
 				footer = footer.item(0).getChildNodes();
+				footer = removeSettings(footer);
 			}
 			footerPos = 0;
 			
@@ -91,5 +93,17 @@ public class CSVxml {
 		rowsPos += 1;
 		
 		return getDataArray(node);
+	}
+	
+	private NodeList removeSettings(NodeList header) {
+		// remove settings sections
+		for (int i = 0; i < header.getLength(); i++) {
+			NodeList childs = header.item(i).getChildNodes();
+			for (int j = 0; j < childs.getLength(); j++) {
+				if (childs.item(j).getNodeName().equals("settings"))
+					header.item(i).removeChild(childs.item(j));
+			}
+		}
+		return header;
 	}
 }
