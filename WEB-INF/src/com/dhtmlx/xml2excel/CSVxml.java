@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 public class CSVxml {
 	private Document dom;
+	private String profile;
 	private NodeList header;
 	private NodeList rows;
 	private NodeList footer;
@@ -34,6 +35,9 @@ public class CSVxml {
 			inputSource.setEncoding("UTF-8");
 			dom = db.parse(inputSource);
 			reader.close();
+			
+			profile = dom.getDocumentElement().getAttribute("profile");
+			if (profile == null) profile = "color";
 			
 			header = dom.getElementsByTagName("head");
 			if (header.getLength()>0){
@@ -105,5 +109,9 @@ public class CSVxml {
 			}
 		}
 		return header;
+	}
+
+	public String getProfile() {
+		return profile;
 	}
 }

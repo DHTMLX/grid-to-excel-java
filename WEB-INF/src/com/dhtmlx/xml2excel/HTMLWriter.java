@@ -24,11 +24,12 @@ public class HTMLWriter extends BaseWriter{
 		int colsnum = 0;
 		PrintWriter writer = resp.getWriter();
 
-		startHTML(writer);
+		Colors colors = getColors(data);
+		startHTML(writer, colors);
 		csv = data.getHeader();
 		if (csv != null)colsnum = csv.length;
 		while(csv != null){			
-			writer.append(dataAsString(csv));
+			writer.append(dataAsString(csv, "header"));
 			csv = data.getHeader();
 		}
 		
@@ -37,8 +38,9 @@ public class HTMLWriter extends BaseWriter{
 			colsnum = csv.length;
 			cols = csv.length;
 		}
-		while(csv != null){			
-			writer.append(dataAsString(csv));
+		while(csv != null){
+			String className = rows%2 == 0 ? "cell_odd" : "cell_even";
+			writer.append(dataAsString(csv, className));
 			csv = data.getRow();
 			rows +=1;
 		}
@@ -46,7 +48,7 @@ public class HTMLWriter extends BaseWriter{
 		csv = data.getFooter();
 		if (csv != null)colsnum = csv.length;
 		while(csv != null){			
-			writer.append(dataAsString(csv));
+			writer.append(dataAsString(csv, "footer"));
 			writer.flush();
 			csv = data.getFooter();
 		}
@@ -61,28 +63,40 @@ public class HTMLWriter extends BaseWriter{
 		if (watermark != null)
 			writer.append("<tr><td colspan='" + colsnum + "'>" + watermark + "</td></tr>");
 	}
-	
+
 	private void endHTML(PrintWriter writer) {
 		writer.append("</table></body></html>");
 	}
 
-	private void startHTML(PrintWriter writer) {
+	private void startHTML(PrintWriter writer, Colors colors) {
 		writer.append("<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><body>");
+		writer.append("<style>");
+
+		String header_css = "background-color: #" + colors.bgColor + "; border:.5pt solid #" + colors.lineColor + ";";
+		String cell_odd_css = "background-color: #" + colors.scaleOneColor + "; border:.5pt solid #" + colors.lineColor + ";";
+		String cell_even_css = "background-color: #" + colors.scaleTwoColor + "; border:.5pt solid #" + colors.lineColor + ";";
+		String footer_css = "background-color: #" + colors.bgColor + "; border:.5pt solid #" + colors.lineColor + ";";
+
+		writer.append(".header { height: 30pt; text-wrap:none; vertical-align: middle; text-align: center; " + header_css + " }");
+		writer.append(".cell_odd { height: 20pt; text-wrap:none; vertical-align: middle; text-align: center; " + cell_odd_css + " }");
+		writer.append(".cell_even { height: 20pt; text-wrap:none; vertical-align: middle; text-align: center;" + cell_even_css + "}");
+		writer.append(".footer { height: 30pt; text-wrap:none; vertical-align: middle; text-align: center; " + footer_css + " }");
+		writer.append("</style>");
 		if (fontSize != -1)
-			writer.append("<style>table tr td { font-size: " + fontSize + "px; }</style>");
+			writer.append("<style>.format { font-size: " + fontSize + "pt; }</style>");
 		writer.append("<table>");
-		
 	}
 
-	private String dataAsString(String[] csv) {
+
+	private String dataAsString(String[] csv, String className) {
 		if (csv.length == 0) return "";
 		
 		StringBuffer buff = new StringBuffer();
 		buff.append("<tr>");
 		for ( int i=0; i<csv.length; i++){
-			buff.append("<td>");
+			buff.append("<td class=\"" + className + "\">");
 			buff.append(csv[i].replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;"));
-			buff.append("</td>");				
+			buff.append("</td>");
 		}	
 		buff.append("</tr>\n");
 		return buff.toString();
@@ -102,5 +116,12 @@ public class HTMLWriter extends BaseWriter{
 
 	public void setWatermark(String watermark) {
 		this.watermark = watermark;
+	}
+	
+	private Colors getColors(CSVxml data) {
+		String profile = data.getProfile();
+		Colors colors = new Colors();
+		colors.setColorProfile(profile);
+		return colors;
 	}
 }
