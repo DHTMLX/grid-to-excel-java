@@ -72,14 +72,15 @@ public class HTMLWriter extends BaseWriter{
 		writer.append("<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><body>");
 		writer.append("<style>");
 
-		String header_css = "background-color: #" + colors.bgColor + "; border:.5pt solid #" + colors.lineColor + ";";
-		String cell_odd_css = "background-color: #" + colors.scaleOneColor + "; border:.5pt solid #" + colors.lineColor + ";";
-		String cell_even_css = "background-color: #" + colors.scaleTwoColor + "; border:.5pt solid #" + colors.lineColor + ";";
-		String footer_css = "background-color: #" + colors.bgColor + "; border:.5pt solid #" + colors.lineColor + ";";
+		String fontsize = (fontSize == -1) ? "" : "font-size: " + fontSize + "pt";
+		String header_css = "background-color: #" + colors.bgColor + "; border:.5pt solid #" + colors.lineColor + ";" + fontsize;
+		String cell_odd_css = "background-color: #" + colors.scaleOneColor + "; border:.5pt solid #" + colors.lineColor + ";" + fontsize;
+		String cell_even_css = "background-color: #" + colors.scaleTwoColor + "; border:.5pt solid #" + colors.lineColor + ";" + fontsize;
+		String footer_css = "background-color: #" + colors.bgColor + "; border:.5pt solid #" + colors.lineColor + ";" + fontsize;
 
 		writer.append(".header { height: 30pt; vertical-align: middle; text-align: center; " + header_css + " }");
-		writer.append(".cell_odd { height: 20pt; vertical-align: middle; text-align: center; " + cell_odd_css + " }");
-		writer.append(".cell_even { height: 20pt; vertical-align: middle; text-align: center;" + cell_even_css + "}");
+		writer.append(".cell_odd { height: 20pt; vertical-align: middle; " + cell_odd_css + " }");
+		writer.append(".cell_even { height: 20pt; vertical-align: middle; " + cell_even_css + "}");
 		writer.append(".footer { height: 30pt; vertical-align: middle; text-align: center; " + footer_css + " }");
 		writer.append("</style>");
 		if (fontSize != -1)
