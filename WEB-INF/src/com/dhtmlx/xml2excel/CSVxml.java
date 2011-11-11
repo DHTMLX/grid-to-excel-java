@@ -104,7 +104,7 @@ public class CSVxml {
 		for (int i = 0; i < header.getLength(); i++) {
 			NodeList childs = header.item(i).getChildNodes();
 			for (int j = 0; j < childs.getLength(); j++) {
-				if (childs.item(j).getNodeName().equals("settings"))
+				if (childs.item(j).getNodeType() == 3 || childs.item(j).getNodeName().equals("settings"))
 					header.item(i).removeChild(childs.item(j));
 			}
 		}
