@@ -43,6 +43,7 @@ public class HTMLWriter extends BaseWriter{
 			writer.append(dataAsString(csv, className));
 			csv = data.getRow();
 			rows +=1;
+			writer.flush();
 		}
 		
 		csv = data.getFooter();
