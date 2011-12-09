@@ -227,7 +227,9 @@ public class ExcelWriter extends BaseWriter {
 					}
 				}
 				try {
-					double name = Double.parseDouble(cells[j].getValue());
+					String text = cells[j].getValue();
+					text = text.replace(",", ".");
+					double name = Double.parseDouble(text);
 					Number label = new Number(j, i + headerOffset, name, f);
 					sheet.addCell(label);
 				} catch (Exception e) {
