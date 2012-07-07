@@ -213,6 +213,8 @@ public class ExcelWriter extends BaseWriter {
 
 				f.setBorder(Border.ALL, BorderLineStyle.THIN, colors.getColor(lineColor, wb));
 				f.setVerticalAlignment(VerticalAlignment.CENTRE);
+				if (cols[0][j].getType().equals("tree"))
+					f.setIndentation(rows[i].getLevel()*2);
 
 				String al = cells[j].getAlign();
 				if (al == "")

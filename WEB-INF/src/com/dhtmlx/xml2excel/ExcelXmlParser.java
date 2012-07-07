@@ -116,7 +116,7 @@ public class ExcelXmlParser {
 					}
 				}
 				if (columns[i][j].getRowspan() > 0) {
-					for (int k = i + 1; k < i + columns[i][j].getRowspan(); k++) {
+					for (int k = i + 1; k < i + columns[i][j].getRowspan() && k < columns.length; k++) {
 						columns[i][j].setHeight(columns[i][j].getHeight() + 1);
 						columns[k][j].setHeight(0);
 					}
