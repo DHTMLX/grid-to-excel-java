@@ -12,8 +12,8 @@ public class ExcelRow {
 	
 	public void parse(Node parent) {
 		Element el = (Element) parent;
-		String l = el.getAttribute("level"); 
-		if (l != null) level = Integer.parseInt(l);
+		String l = el.getAttribute("level");
+		if (l != null && !l.equals("")) level = Integer.parseInt(l);
 		NodeList nodes = ((Element) parent).getElementsByTagName("cell");
 		Node text_node;
 		if ((nodes != null)&&(nodes.getLength() > 0)) {

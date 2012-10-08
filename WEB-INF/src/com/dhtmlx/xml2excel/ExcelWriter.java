@@ -228,20 +228,33 @@ public class ExcelWriter extends BaseWriter {
 						f.setAlignment(Alignment.CENTRE);
 					}
 				}
-				try {
-					String text = cells[j].getValue();
-					text = text.replace(",", ".");
-					double name = Double.parseDouble(text);
-					Number label = new Number(j, i + headerOffset, name, f);
-					sheet.addCell(label);
-				} catch (Exception e) {
-					String name = cells[j].getValue();
-					Label label = new Label(j, i + headerOffset, name, f);
-					sheet.addCell(label);
+				String text = cells[j].getValue();
+				String type = cols[0][j].getType();
+				if (type.equals("number") || type.equals("num") ||
+					type.equals("edn") || type.equals("ron")) {
+					print_number(j, i + headerOffset, text, f);
+				} else {
+					print_string(j, i + headerOffset, text, f);
 				}
 			}
 		}
 		headerOffset += rows.length;
+	}
+
+	private void print_number(int column, int row, String text, WritableCellFormat f) throws RowsExceededException, WriteException {
+		try {
+			text = text.replace(",", ".");
+			double value = Double.parseDouble(text);
+			Number label = new Number(column, row, value, f);
+			sheet.addCell(label);
+		} catch (Exception e) {
+			print_string(column, row, text, f);
+		}
+	}
+
+	private void print_string(int column, int row, String value, WritableCellFormat f) throws RowsExceededException, WriteException {
+		Label label = new Label(column, row, value, f);
+		sheet.addCell(label);
 	}
 
 	private void insertHeader(ExcelXmlParser parser, HttpServletResponse resp) throws IOException, RowsExceededException {
