@@ -232,6 +232,7 @@ public class ExcelWriter extends BaseWriter {
 				String type = cols[0][j].getType();
 				if (type.equals("number") || type.equals("num") ||
 					type.equals("edn") || type.equals("ron")) {
+					text = text.replaceAll("[^\\d\\.-]", "");
 					print_number(j, i + headerOffset, text, f);
 				} else {
 					print_string(j, i + headerOffset, text, f);
